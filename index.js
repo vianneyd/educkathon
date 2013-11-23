@@ -1,24 +1,67 @@
 var profIO = require('socket.io').listen(8080);
 var elvIO = require("socket.io").listen(8081);
 
+var profsSockets = [];
+var elvSockects = [];
+
+var events = ["new_question","answer","end_question","next_slide","previous_slide","goto_slide"];
+
+var sendToElv = function(name,data){
+  for(var i = 0; i < elvSockects.length; i++){
+      elvSockects[i].emit(name,data);
+  }
+};
+
+var sendToProf = function(name,data){
+    for(var i = 0; i < elvSockects.length; i++){
+        elvSockects[i].emit(name,data);
+    }
+};
+
 profIO.sockets.on("connection", function(socket){
     console.log("Prof Connection");
 
-    socket.on("new_question", function(data){
-        console.log(arguments);
-        for(var i = 0; i < 100; i++){
-            setTimeout(function(){
-                socket.emit("answer",{
-                    question_id: data.id,
-                    answer: Math.floor(Math.random()*data.answers.length)
-                });
-            }, 1000);
+    profsSockets.push(socket);
+
+    socket.on("disconnect", function(){
+        for(var i = 0; i < profsSockets.length; i++){
+            if(profsSockets[i] == socket){
+                profsSockets.splice(i,1);
+                break;
+            }
         }
     });
+    for(var i = 0; i < events.length; i++){
+        (function(i){
+            socket.on(events[i], function(data){
+                sendToElv(events[i],data);
+            });
+        })(i);
+    }
+
 });
 
 elvIO.sockets.on("connection", function(socket){
     console.log("Eleve Connection");
+
+    elvSockects.push(socket);
+
+    socket.on("disconnect", function(){
+        for(var i = 0; i < elvSockets.length; i++){
+            if(elvSockects[i] == socket){
+                elvSockects.splice(i,1);
+                break;
+            }
+        }
+    });
+
+    for(var i = 0; i < events.length; i++){
+        (function(i){
+            socket.on(events[i], function(data){
+                sendToProf(events[i],data);
+            });
+        })(i);
+    }
 
     socket.on("test", function(){
         console.log("Testing eleve...");

@@ -72,12 +72,13 @@ var updateAnswers = function(){
     for(var i = 0; i < questions[currentQuestion].answers.length; i++){
         console.log((currentAnswers[i]/totalAnswers));
         currentAnswers[i] = currentAnswers[i] || 0;
-        document.querySelector("#currentQuestion > ul > li:nth-child("+(i+1)+")").style.width = 100*(currentAnswers[i]/totalAnswers)+"%";
+        var answer = document.querySelector("#currentQuestion > ul > li:nth-child("+(i+1)+")");
+        answer.style.width = 100*(currentAnswers[i]/totalAnswers)+"%";
+        answer.innerText = questions[currentQuestion].answers[i]+" - "+currentAnswers[i];
     }
 };
 
 socket.on("answer", function(data){
-    //alert("quelqu'un à répondu : "+questions[data.question_id].answers[data.answer]);
     currentAnswers[data.answer] = currentAnswers[data.answer] || 0;
     currentAnswers[data.answer]++;
     totalAnswers++;

@@ -1,0 +1,42 @@
+
+<div class="slide" id="slide_1">
+Determinant, <br>
+Element qui influence la santé d un individu.
+<br>
+Effet positif ou negative <br>
++ determinant de santé <br>
+- facteur de risqué <br>
+</div>
+
+
+<div  class="slide" id="slide_2">
+Mise en application, <br>
+La qualité de l'air est un déterminant de santé <br>
+La pollution atmospherique est un facteur de risque
+
+	<div class="question">
+		Le sport etant un determinant de santé, lequel de ces choix correspond au facteur de risque associe ?
+			<div class="answer">La pratique de l'atletisme</div>
+			<div class="answer">Le sport</div>
+			<div class="answer">L'absence d'activité physique</div>
+		<div class="correct_answer_index">2</div>				
+	</div>
+
+	<div class="question">
+		Le determinant a un effet ……………  sur la santé.
+			<div class="answer">+</div>
+			<div class="answer">-</div>
+		<div class="correct_answer_index">0</div>				
+	</div>
+
+
+	<div class="question">
+		Le facteur de risque a un effet ……………  sur la santé.
+			<div class="answer">+</div>
+			<div class="answer">-</div>
+		<div class="correct_answer_index">0</div>				
+	</div>
+ 
+
+
+</div>

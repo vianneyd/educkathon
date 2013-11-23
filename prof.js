@@ -28,7 +28,7 @@ var totalAnswers = 0;
 var renderQuestion = function(id,question){
     var content = document.createElement("div");
     content.id = "question"+id;
-    content.innerText = question.question;
+    content.innerHTML = question.question;
 
     return content;
 };
@@ -52,7 +52,7 @@ var renderCurrentQuestion = function(id){
     var button = document.createElement("button");
     button.dataset.question_id=id;
     button.addEventListener("click",sendQuestion);
-    button.innerText = "Envoyer la question";
+    button.innerHTML = "Envoyer la question";
 
     questionDiv.appendChild(button);
 };
@@ -74,7 +74,7 @@ var updateAnswers = function(){
         currentAnswers[i] = currentAnswers[i] || 0;
         var answer = document.querySelector("#currentQuestion > ul > li:nth-child("+(i+1)+")");
         answer.style.width = 100*(currentAnswers[i]/totalAnswers)+"%";
-        answer.innerText = questions[currentQuestion].answers[i]+" - "+currentAnswers[i];
+        answer.innerHTML = questions[currentQuestion].answers[i]+" - "+currentAnswers[i];
     }
 };
 
@@ -87,8 +87,10 @@ socket.on("answer", function(data){
 });
 
 var questionContainer = document.querySelector("#questions");
+
 for(var i = 0; i < questions.length; i++){
     var questionDiv = renderQuestion(i,questions[i]);
+    console.log(questionDiv);
     questionDiv.addEventListener("click",questionClicked);
     questionContainer.appendChild(questionDiv);
 }

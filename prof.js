@@ -7,3 +7,84 @@ var question = {
         "noir"
     ]
 };
+
+var socket = io.connect('http://localhost:8080');
+socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+});
+
+var questions = [
+    {
+        type: "qcm",
+        question: "Quel est le cheval blanc d'henry 4 ?",
+        answers: [
+            "blanc",
+            "gris",
+            "noir"
+        ]
+    },
+    {
+        type: "qcm",
+        question: "Comment ça va ?",
+        answers: [
+            "bien",
+            "bof",
+            "je suis fatigué"
+        ]
+    }
+];
+
+var currentQuestion = null;
+
+var renderQuestion = function(id,question){
+    var content = document.createElement("div");
+    content.id = "question"+id;
+    content.innerText = question.question;
+
+    return content;
+};
+
+var questionClicked = function(e){
+    e.preventDefault();
+
+    var id = e.currentTarget.id.substr(8);
+    renderCurrentQuestion(id);
+};
+
+var renderCurrentQuestion = function(id){
+    var question = questions[id];
+    currentQuestion = id;
+
+    var questionDiv = document.querySelector("#currentQuestion");
+    questionDiv.innerHTML = "";
+    questionDiv.innerHTML += "<h2>"+question.question+"</h2>";
+    questionDiv.innerHTML += "<ul><li>"+question.answers.join("</li><li>")+"</li></ul>";
+
+    var button = document.createElement("button");
+    button.dataset.question_id=id;
+    button.addEventListener("click",sendQuestion);
+    button.innerText = "Envoyer la question";
+
+    questionDiv.appendChild(button);
+};
+
+var sendQuestion = function(e){
+    var id = e.currentTarget.dataset.question_id;
+    var question = questions[id];
+    question.id = id;
+    socket.emit("new_question", question);
+};
+
+var questionContainer = document.querySelector("#questions");
+for(var i = 0; i < questions.length; i++){
+    var questionDiv = renderQuestion(i,questions[i]);
+    questionDiv.addEventListener("click",questionClicked);
+    questionContainer.appendChild(questionDiv);
+}
+
+
+
+
+
+

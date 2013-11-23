@@ -44,7 +44,7 @@ profIO.sockets.on("connection", function(socket){
 elvIO.sockets.on("connection", function(socket){
     console.log("Eleve Connection");
 
-    elvSockects.push(socket);
+    elvSockets.push(socket);
 
     socket.on("disconnect", function(){
         for(var i = 0; i < elvSockets.length; i++){

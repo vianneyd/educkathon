@@ -7,6 +7,18 @@ profIO.sockets.on("connection", function(socket){
 
 elvIO.sockets.on("connection", function(){
     console.log("Eleve Connection");
-
 });
+
+elvIO.sockets.on("test", function(){
+    elvIO.sockets.emit("new_question",{
+        type: "qcm",
+        question: "Quel est le cheval blanc d'henry 4 ?",
+        answers: [
+            "blanc",
+            "gris",
+            "noir"
+        ]
+    });
+});
+
 

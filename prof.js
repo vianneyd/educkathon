@@ -1,18 +1,4 @@
-var question = {
-    type: "qcm",
-    question: "Quel est le cheval blanc d'henry 4 ?",
-    answers: [
-        "blanc",
-        "gris",
-        "noir"
-    ]
-};
-
 var socket = io.connect('http://localhost:8080');
-socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
-});
 
 var questions = [
     {
@@ -36,6 +22,8 @@ var questions = [
 ];
 
 var currentQuestion = null;
+var currentAnswers = [];
+var totalAnswers = 0;
 
 var renderQuestion = function(id,question){
     var content = document.createElement("div");
@@ -73,8 +61,29 @@ var sendQuestion = function(e){
     var id = e.currentTarget.dataset.question_id;
     var question = questions[id];
     question.id = id;
+
+    currentAnswers = [];
+    totalAnswers = 0;
+
     socket.emit("new_question", question);
 };
+
+var updateAnswers = function(){
+    for(var i = 0; i < questions[currentQuestion].answers.length; i++){
+        console.log((currentAnswers[i]/totalAnswers));
+        currentAnswers[i] = currentAnswers[i] || 0;
+        document.querySelector("#currentQuestion > ul > li:nth-child("+(i+1)+")").style.width = 100*(currentAnswers[i]/totalAnswers)+"%";
+    }
+};
+
+socket.on("answer", function(data){
+    //alert("quelqu'un à répondu : "+questions[data.question_id].answers[data.answer]);
+    currentAnswers[data.answer] = currentAnswers[data.answer] || 0;
+    currentAnswers[data.answer]++;
+    totalAnswers++;
+    updateAnswers();
+
+});
 
 var questionContainer = document.querySelector("#questions");
 for(var i = 0; i < questions.length; i++){
@@ -82,8 +91,6 @@ for(var i = 0; i < questions.length; i++){
     questionDiv.addEventListener("click",questionClicked);
     questionContainer.appendChild(questionDiv);
 }
-
-
 
 
 

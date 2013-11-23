@@ -6,6 +6,14 @@ profIO.sockets.on("connection", function(socket){
 
     socket.on("new_question", function(data){
         console.log(arguments);
+        for(var i = 0; i < 100; i++){
+            setTimeout(function(){
+                socket.emit("answer",{
+                    question_id: data.id,
+                    answer: Math.floor(Math.random()*data.answers.length)
+                });
+            }, 1000);
+        }
     });
 });
 

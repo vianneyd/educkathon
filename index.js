@@ -13,6 +13,7 @@ elvIO.sockets.on("connection", function(socket){
     console.log("Eleve Connection");
 
     socket.on("test", function(){
+        console.log("Testing eleve...");
         elvIO.sockets.emit("new_question",{
             type: "qcm",
             question: "Quel est le cheval blanc d'henry 4 ?",

@@ -79,7 +79,7 @@ var updateAnswers = function(){
 };
 
 socket.on("answer", function(data){
-    currentAnswers[data.answer] = currentAnswers[data.answer] || 0;
+    currentAnswers  [data.answer] = currentAnswers[data.answer] || 0;
     currentAnswers[data.answer]++;
     totalAnswers++;
     updateAnswers();

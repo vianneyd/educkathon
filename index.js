@@ -13,8 +13,8 @@ var sendToElv = function(name,data){
 };
 
 var sendToProf = function(name,data){
-    for(var i = 0; i < elvSockets.length; i++){
-        elvSockets[i].emit(name,data);
+    for(var i = 0; i < profsSockets.length; i++){
+        profsSockets[i].emit(name,data);
     }
 };
 

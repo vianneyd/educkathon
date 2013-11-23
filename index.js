@@ -2,19 +2,19 @@ var profIO = require('socket.io').listen(8080);
 var elvIO = require("socket.io").listen(8081);
 
 var profsSockets = [];
-var elvSockects = [];
+var elvSockets = [];
 
 var events = ["new_question","answer","end_question","next_slide","previous_slide","goto_slide"];
 
 var sendToElv = function(name,data){
-  for(var i = 0; i < elvSockects.length; i++){
-      elvSockects[i].emit(name,data);
+  for(var i = 0; i < elvSockets.length; i++){
+      elvSockets[i].emit(name,data);
   }
 };
 
 var sendToProf = function(name,data){
-    for(var i = 0; i < elvSockects.length; i++){
-        elvSockects[i].emit(name,data);
+    for(var i = 0; i < elvSockets.length; i++){
+        elvSockets[i].emit(name,data);
     }
 };
 
@@ -48,8 +48,8 @@ elvIO.sockets.on("connection", function(socket){
 
     socket.on("disconnect", function(){
         for(var i = 0; i < elvSockets.length; i++){
-            if(elvSockects[i] == socket){
-                elvSockects.splice(i,1);
+            if(elvSockets[i] == socket){
+                elvSockets.splice(i,1);
                 break;
             }
         }
